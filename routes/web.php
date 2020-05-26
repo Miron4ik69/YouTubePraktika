@@ -20,3 +20,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/result', 'SearchController@search');
+Route::get('view/{videoID}', 'SearchController@show');
+Route::post('/favoriteadd', 'FavoriteController@insert');
+Route::get('/favoritedelete/{videoID}', 'FavoriteController@destroy');
+
