@@ -86,16 +86,15 @@ class SearchController extends Controller
                 'video_description' => $results[0]->snippet->description,
                 'video_image' => $results[0]->snippet->thumbnails->high->url
             ];
+
             return view('view', ['results' => $arr]); 
 
         } else {
             $resultsDB = QuerySearch::where('video_id', $id)->get();
-
+    
             foreach($resultsDB as $result){
                 return view('view', ['results' => $result]);
-            }
-
-            
+            }    
         }  
     }
 
