@@ -58,23 +58,23 @@
   <div class="container mt-3">
     <!--Section: Content-->
     <div class="container-fluid mt-3 mb-5">
-      <section style="background-image: url('{{ $results[0]->snippet->thumbnails->high->url}}'); background-repeat: no-repeat; background-size: cover; background-position: center center;">      
+      <section style="background-image: url('{{ $results->video_image }}'); background-repeat: no-repeat; background-size: cover; background-position: center center;">      
         <!-- Modal -->
         <div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
           aria-hidden="true">
           <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="embed-responsive embed-responsive-16by9 z-depth-1-half">
-                <iframe id="player" class="embed-responsive-item" src="https://www.youtube.com/embed/{{ $results[0]->id }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                <iframe id="player" class="embed-responsive-item" src="https://www.youtube.com/embed/{{ $results->video_id }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
               </div>
             </div>
           </div>
         </div>
         <div class="mask rgba-black-strong py-5">
           <div class="container text-center my-5">
-            <h3 class="font-weight-bold text-center white-text pb-2">{{ $results[0]->snippet->title }}</h3>
+            <h3 class="font-weight-bold text-center white-text pb-2">{{ $results->video_title }}</h3>
             <hr class="w-header hr-light my-4">
-            <p class="lead text-center white-text pt-2 mb-5">{{ $results[0]->snippet->description }}</p>
+            <p class="lead text-center white-text pt-2 mb-5">{{ $results->video_description }}</p>
             <a id="play" class="btn-floating btn-cyan btn-lg" data-toggle="modal" data-target="#modal1"><i class="fas fa-play"></i></a>
           </div>
         </div>
@@ -83,15 +83,15 @@
 <form id="form"> 
     @csrf
     <input type="hidden" value="{{ Auth::id() }}" name="user_id">
-    <input type="hidden" value="{{ $results[0]->id }}" name="video_id">
-    <input type="hidden" value="{{ $results[0]->snippet->title }}" name="video_title">
-    <input type="hidden" value="{{ $results[0]->snippet->thumbnails->high->url}}" name="video_image">
+    <input type="hidden" value="{{ $results->video_id }}" name="video_id">
+    <input type="hidden" value="{{ $results->video_title }}" name="video_title">
+    <input type="hidden" value="{{ $results->video_image}}" name="video_image">
 
     <div class="col-md-4 col-xl-6">
     @if(Auth::user())
       <button type="submit" class="btn btn-success">Добавить в избранное</button>
     @else
-    <p class="font-weight-lighter text-danger">Чтобы добавить видео в избранные, вы должны <a href="/login" class="text-decoration-none">Авторизоваться</a></p>
+      <p class="font-weight-lighter text-danger">Чтобы добавить видео в избранные, вы должны <a href="/login" class="text-decoration-none">Авторизоваться</a></p>
     @endif
     </div>
   </div>

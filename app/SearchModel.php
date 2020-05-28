@@ -23,6 +23,8 @@ class SearchModel extends Model
             return $results;
         }
 
+        
+
         if($array['title'] == "")
         {
             $getPost = SearchModel::getPost($items['id']);
@@ -39,7 +41,7 @@ class SearchModel extends Model
         $getString = str_replace(" ", "+", $title); 
         $api = config('google.google_key'); 
 
-        $url = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" . $getString . "&maxResults=10&order=rating&type=video&key=" . $api;
+        $url = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" . $getString . "&maxResults=50&order=rating&type=video&key=" . $api;
 
         return $url;
     }

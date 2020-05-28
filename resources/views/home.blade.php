@@ -38,37 +38,37 @@
 </header>   
 
 <main id="home">
-	    <!--First container-->
-	    <div class="container-fluid mt-5 pt-5">
-            <section class="section">           
-                <!--First row-->
-                <div class="row wow fadeIn" data-wow-delay="0.4s">
-                    <!--First column-->
-                    <div class="col-md-12">
-                        <div id="mdb-lightbox-ui"></div>
-                        <div class="mdb-lightbox">
-                          @foreach($results as $result)
-                            <figure class="col-md-4">
-                                <a href="/view/{{ $result->video_id }}" data-size="1600x1067">
-                                    <img src="{{ $result->video_image }}" class="img-fluid">
-                                </a>
-                                <div class="flex-center rgba-black-strong">
-                                  <a href="/view/{{ $result->video_id }}" class="text-white"><button type="button" class="btn btn-outline-info">Посмотреть</button></a>
-                                  <a href="/favoritedelete/{{ $result->video_id }}" class="text-white"><button type="button" class="btn btn-outline-danger">Удалить</button></a>
-                                </div>
-                            </figure>
-                          @endforeach
-                        </div>         
-                    </div>
-                    <!--/First column-->
-                </div>
-                <!--First row-->
-            </section>
-	    </div>
-	    <!--/First container-->
-	    </div>
-	    <!--/Second container-->
-	</main>
+  <div class="container-fluid">
+    <div class="row row-cols-1 row-cols-md-3 mt-3">
+      @foreach($results as $result)
+      <div class="col mb-4">
+          <!-- Card -->
+          <div class="card z-depth-5">
+            <!--Card image-->
+            <div class="view overlay">
+              <img class="card-img-top" src="{{ $result->video_image }}"
+                alt="Card image cap">
+              <a href="#!">
+                <div class="mask rgba-white-slight"></div>
+              </a>
+            </div>
+            <!--Card content-->
+            <div class="card-body">
+              <!--Title-->
+              <h4 class="card-title">{{ $result->video_title }}</h4>       
+              <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+              <div class="col-xl-12 justify-content-between d-flex">
+                <a href="/view/{{ $result->video_id }}" class="btn btn-primary btn-md">Посмотреть</a>
+                <a href="/favoritedelete/{{ $result->video_id }}" class="btn btn-danger btn-md">Удалить</a>                   
+              </div>            
+            </div>
+          </div>
+          <!-- Card -->
+      </div>
+      @endforeach
+    </div>
+  </div>
+</main>
 
  <!-- jQuery -->
   <script type="text/javascript" src="js/jquery.min.js"></script>

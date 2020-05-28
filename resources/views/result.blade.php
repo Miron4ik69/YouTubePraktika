@@ -21,14 +21,7 @@
 
   <!-- Header site -->
 <nav class="navbar justify-content-between">
-  <form class="form-inline my-1" method="post" action="/result">
-  @csrf
-    <div class="md-form form-sm my-0">
-      <input name="title" class="text-white form-control form-control-sm mr-sm-2 mb-0" type="text" placeholder="Введите запрос..."
-        aria-label="Search">
-    </div>
-    <button class="btn btn-outline-white btn-sm my-0" type="submit">Поиск</button>
-  </form>
+<a href="/" class="navbar-brand text-white">You<span style="color: red;">Tube</span> - плеер</a>
   <ul class="m-0 d-flex">
     @if (Route::has('login'))
       @auth
@@ -53,27 +46,27 @@
   <!-- Intro content -->
     <div class="container mt-5">
         <section class="white-text">
-          @foreach($results->items as $result)
-            <div class="row align-items-center mt-3">
-                <div class="col-lg-3 col-sm-2 col-xl-4 col">
-                    <div class="overlay rounded z-depth-1-half mb-lg-0 mb-4">
-                        <img class="img-fluid" src="{{ $result->snippet->thumbnails->high->url }}" alt="Sample image">
-                    </div>
-                </div>
-                <div class="col-lg-7 col-xl-8">
-                    <h4 class="font-weight-bold mb-3">
-                        <strong>{{ $result->snippet->title }}</strong>
-                    </h4>
-                    <p class="white-text">
-                        {{ substr($result->snippet->description, 0, 200) }}
-                    </p>
-                    <p><a class="font-weight-bold">{{ $result->snippet->channelTitle }}</a> {{ $result->snippet->publishedAt }}</p>
-                    <a class="btn btn-red btn-md mx-0" href="view/{{ $result->id->videoId }}">
-                        Смотреть
-                    </a>
-                </div>
-            </div>
-           @endforeach
+            @foreach($results as $result)
+              <div class="row align-items-center mt-3">
+                  <div class="col-lg-3 col-sm-2 col-xl-4 col">
+                      <div class="overlay rounded z-depth-1-half mb-lg-0 mb-4">
+                          <img class="img-fluid" src="{{ $result->video_image }}" alt="Sample image">
+                      </div>
+                  </div>
+                  <div class="col-lg-7 col-xl-8">
+                      <h4 class="font-weight-bold mb-3">
+                          <strong>{{ $result->video_title }}</strong>
+                      </h4>
+                      <p class="white-text">
+                          {{ substr($result->video_description, 0, 200) }}
+                      </p>
+                      <p><a class="font-weight-bold">{{ $result->video_channel }}</a> {{ $result->video_date }}</p>
+                      <a class="btn btn-red btn-md mx-0" href="view/{{ $result->video_id }}">
+                          Смотреть
+                      </a>
+                  </div>
+              </div>
+            @endforeach       
         </section>
     </div>
   <!-- End Intro -->
