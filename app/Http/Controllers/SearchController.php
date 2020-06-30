@@ -2,26 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Favorite;
-use App\QuerySearch;
+use App\Repositories\Interfaces\SearchRepositoryInterface;
+use App\Repositories\Interfaces\ViewRepositoryInterface;
 use Illuminate\Http\Request;
-use Facade\Ignition\QueryRecorder\Query;
-use Google_Client;
-use Google_Service;
-use Google_Service_YouTube;
-use Illuminate\Support\Facades\Auth;
 
 class SearchController extends Controller
 {
+    private $SearchRepository;
+    private $ViewRepository;
 
-    private $youtube;
-
-    public function __construct()
+    public function __construct(SearchRepositoryInterface $SearchRepository, ViewRepositoryInterface $ViewRepository)
     {
-        $client = new Google_Client();
-        $client->setApplicationName(config('google.application_name'));
-        $client->setDeveloperKey(config('google.google_key'));
-        $this->youtube = new Google_Service_YouTube($client);
+        $this->SearchRepository = $SearchRepository;
+        $this->ViewRepository = $ViewRepository;
     }
 
     public function search(Request $request)
@@ -29,66 +22,17 @@ class SearchController extends Controller
 
         $inputTitle = $request->input('title');
 
-        function insertQuery($items, $inputTitle) // insert Query to db
-        {
-            foreach($items->items as $item){
-                QuerySearch::insert([
-                    'query' => $inputTitle,
-                    'video_id' => $item->id->videoId,
-                    'video_title' => $item->snippet->title,
-                    'video_description' => $item->snippet->description,
-                    'video_image' => $item->snippet->thumbnails->high->url,
-                    'video_date' => $item->snippet->publishedAt,
-                    'video_channel' => $item->snippet->channelTitle
-                ]);
-            }     
-        } 
+        $search = $this->SearchRepository->search($inputTitle);
 
-        function getArray($result)
-        {
-            foreach($result->items as $res){  
-
-                $arr[] = (object)[
-                    'video_id' => $res->id->videoId,
-                    'video_title' => $res->snippet->title,
-                    'video_description' => $res->snippet->description,
-                    'video_image' => $res->snippet->thumbnails->high->url,
-                    'video_date' => $res->snippet->publishedAt,
-                    'video_channel' => $res->snippet->channelTitle
-                ];
-            }
-
-            return $arr;
-        }
-
-        $resultsDB = QuerySearch::where([
-            'query' => $inputTitle
-        ])->exists(); 
-
-        if($resultsDB == null){
-
-            $queryParams = [
-                'order' => 'searchSortUnspecified',
-                'q' => $inputTitle
-            ];
-
-            $response = $this->youtube->search->listSearch('snippet', $queryParams);
-
-            insertQuery($response, $inputTitle);
-
-            return view('result', ['results' => getArray($response)]);
-        } else {
-            $resultsDB = QuerySearch::select()->where('query', $inputTitle)->get();
-            return view('result', ['results' => $resultsDB]);
-        }
+        return view('result', ['results' => $search]);
     }
 
         
-    public function show(Request $request, $id) // show controller
+    public function show($id)
     { 
-        $resultsDB = QuerySearch::where('video_id', $id)->get();
+        $search = $this->ViewRepository->view($id);
     
-        foreach($resultsDB as $result){
+        foreach($search as $result){
             return view('view', ['results' => $result]);
         }
     }
