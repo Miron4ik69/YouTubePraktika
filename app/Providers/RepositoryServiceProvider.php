@@ -15,11 +15,19 @@ class RepositoryServiceProvider extends ServiceProvider
      *
      * @return void
      */
+
+    
+
     public function register()
     {
+
         $this->app->bind(
             SearchRepositoryInterface::class, 
-            SearchRepository::class,
+            SearchRepository::class
+        );
+
+        
+        $this->app->bind(
             ViewRepositoryInterface::class,
             ViewRepository::class
         );

@@ -30,7 +30,8 @@ class SearchRepository implements SearchRepositoryInterface
         if($searchDB == null){   
 
             $queryParams = [
-                'order' => 'searchSortUnspecified',
+                'maxResults' => 1000,
+                'order' => 'relevance',
                 'q' => $query
             ];
     
@@ -47,8 +48,20 @@ class SearchRepository implements SearchRepositoryInterface
                     'video_channel' => $item->snippet->channelTitle
                 ]);
             }  
+
+            foreach($response->items as $res){  
+
+                $arr[] = (object)[
+                    'video_id' => $res->id->videoId,
+                    'video_title' => $res->snippet->title,
+                    'video_description' => $res->snippet->description,
+                    'video_image' => $res->snippet->thumbnails->high->url,
+                    'video_date' => $res->snippet->publishedAt,
+                    'video_channel' => $res->snippet->channelTitle
+                ];
+            }
            
-            return $response;
+            return $arr;    
         } else {
             $searchDB = QuerySearch::select()->where('query', $query)->get();
 
