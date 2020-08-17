@@ -7,6 +7,7 @@ use Google_Service;
 use Google_Service_YouTube;
 use App\QuerySearch;
 use App\Repositories\Interfaces\SearchRepositoryInterface;
+use Facade\Ignition\QueryRecorder\Query;
 
 class SearchRepository implements SearchRepositoryInterface
 {
@@ -60,7 +61,7 @@ class SearchRepository implements SearchRepositoryInterface
                     'video_channel' => $res->snippet->channelTitle
                 ];
             }
-           
+
             return $arr;    
         } else {
             $searchDB = QuerySearch::select()->where('query', $query)->get();
