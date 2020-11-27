@@ -1,4 +1,3 @@
-[![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=miron4ik69&repo=YouTubePraktika)](https://github.com/anuraghazra/github-readme-stats)
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
 <p align="center">
